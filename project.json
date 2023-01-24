@@ -1,0 +1,72 @@
+{
+  "name": "yasak-kelime",
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "./src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/yasak-kelime"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "yasak-kelime:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "yasak-kelime:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "yasak-kelime:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nrwl/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "yasak-kelime:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "yasak-kelime:build:development"
+        },
+        "production": {
+          "buildTarget": "yasak-kelime:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nrwl/vite:test",
+      "outputs": ["coverage/yasak-kelime"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "coverage/yasak-kelime"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["./src/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}
