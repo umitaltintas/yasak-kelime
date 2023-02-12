@@ -1,14 +1,22 @@
-import { LabelInput } from '../common/LabelInput';
-
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { LabelInput } from '../../common/LabelInput';
 /* eslint-disable-next-line */
 export interface NewGameProps {}
 
 export function NewGame(props: NewGameProps) {
+  const navigate = useNavigate();
+  const [gameCode, setGameCode] = useState(123);
+  function handleStartGame() {
+    // navigate to game page
+    navigate(`/game/`);
+  }
+
   return (
     // a taboo game login screen will be here
     // has user name, game user count, game duration
     // user count option 4 6 8
-    <div className="flex flex-col text-3xl gap-y-4 rounded-lg bg-secondary-500 p-4">
+    <div className="flex flex-col text-3xl gap-y-4 rounded-lg bg-secondary-100 p-4">
       <h1 className="self-center text-4xl text-primary-400 font-bold">
         New Game
       </h1>
@@ -61,7 +69,12 @@ export function NewGame(props: NewGameProps) {
         </select>
       </LabelInput>
       {/* a fancy start button */}
-      <button className="self-center bg-primary-400 text-white font-semibold py-2 px-4 rounded hover:bg-hover-500 ">
+      <button
+        className="self-center bg-primary-400 text-white font-semibold py-2 px-4 rounded hover:bg-hover-500 "
+        onClick={() => {
+          handleStartGame();
+        }}
+      >
         Start
       </button>
     </div>

@@ -1,12 +1,11 @@
-import { LabelInput } from '../common/LabelInput';
-import styles from './JoinGame.module.css';
+import { LabelInput } from '../../common/LabelInput';
 
 /* eslint-disable-next-line */
 export interface JoinGameProps {}
 
 export function JoinGame(props: JoinGameProps) {
   return (
-    <div className="flex flex-col text-3xl gap-y-4 rounded-lg bg-secondary-500 p-4">
+    <div className="flex flex-col text-3xl gap-y-4 rounded-lg bg-secondary-100 p-4">
       <h1 className="self-center text-4xl text-primary-400 font-bold">
         Join Game
       </h1>
