@@ -4,14 +4,18 @@ import { Timer } from '../../Timer/Timer';
 import { WordLine } from '../../WordLine/WordLine';
 
 /* eslint-disable-next-line */
-export interface GameProps {}
+export interface GameProps {
+  gameId: string;
+  teamNames: string[];
+  duration: number;
+  userCount: number;
+}
 
 export function Game(props: GameProps) {
   // get gameId from url
   const [score, setScore] = useState(0);
   const [tabooRight, setTabooRight] = useState(3);
   const [passRight, setPassRight] = useState(3);
-  const [isFirstTeam, setIsFirstTeam] = useState(true);
   // timer
   const [time, setTime] = useState(60);
   useEffect(() => {
@@ -51,8 +55,8 @@ export function Game(props: GameProps) {
       <Timer time={time} />
       {/* score board */}
       <div className="flex flex-row justify-between">
-        <Score name="Team 1" score={score} isActive={isFirstTeam} />
-        <Score name="Team 2" score={score} isActive={!isFirstTeam} />
+        <Score name="Team 1" score={score} isActive={true} />
+        <Score name="Team 2" score={score} isActive={false} />
       </div>
       <div className="flex flex-col text-3xl  rounded-lg bg-secondary-500 p-4  w-96 mx-0">
         {/* header serction word */}

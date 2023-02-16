@@ -1,16 +1,54 @@
+import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LabelInput } from '../../common/LabelInput';
+import * as Yup from 'yup';
+import { GameProps } from '../Game/Game';
 /* eslint-disable-next-line */
 export interface NewGameProps {}
 
 export function NewGame(props: NewGameProps) {
+  const initialValues = {
+    userName: '',
+    userCount: 4,
+    gameDuration: 1,
+    teamAName: '',
+    teamBName: '',
+  };
   const navigate = useNavigate();
   const [gameCode, setGameCode] = useState(123);
-  function handleStartGame() {
+  function handleStartGame(
+    values: any,
+    formikHelpers: FormikHelpers<typeof initialValues>
+  ) {
+    //use context api for set game state
+    const { userName, userCount, gameDuration, teamAName, teamBName } = values;
+    const gameProps: GameProps = {
+      gameId: gameCode.toString(),
+      teamNames: [teamAName, teamBName],
+      duration: gameDuration,
+      userCount: userCount,
+    };
+
+    console.log(gameProps);
     // navigate to game page
-    navigate(`/game/`);
   }
+  const newGameSchema = Yup.object().shape({
+    userName: Yup.string()
+      .required('User name is required')
+      .min(3, 'User name is too short')
+      .max(20, 'User name is too long'),
+    userCount: Yup.number().required('User count is required'),
+    gameDuration: Yup.number().required('Game duration is required'),
+    teamAName: Yup.string()
+      .required('Team A name is required')
+      .min(3, 'Team A name is too short')
+      .max(20, 'Team A name is too long'),
+    teamBName: Yup.string()
+      .required('Team B name is required')
+      .min(3, 'Team B name is too short')
+      .max(20, 'Team B name is too long'),
+  });
 
   return (
     // a taboo game login screen will be here
@@ -20,63 +58,139 @@ export function NewGame(props: NewGameProps) {
       <h1 className="self-center text-4xl text-primary-400 font-bold">
         New Game
       </h1>
-      <LabelInput>
-        <label
-          htmlFor="userName"
-          className=" block text-gray-700 font-semibold mb-2"
-        >
-          User Name
-        </label>
-        <input
-          type="text"
-          name="userName"
-          className="  borderp-2 w-full rounded border-primary-400"
-          placeholder="Enter your name"
-        />
-      </LabelInput>
-      <LabelInput>
-        <label
-          htmlFor="userCount"
-          className=" block text-gray-700 font-semibold mb-2"
-        >
-          User Count
-        </label>
-        <select
-          name="userCount"
-          id="userCount"
-          className=" border border-primary-400 p-2 w-full rounded"
-        >
-          <option value="4">4</option>
-          <option value="6">6</option>
-          <option value="8">8</option>
-        </select>
-      </LabelInput>
-      <LabelInput>
-        <label
-          htmlFor="gameDuration"
-          className=" block text-gray-700 font-semibold mb-2"
-        >
-          Game Duration
-        </label>
-        <select
-          name="gameDuration"
-          id="gameDuration"
-          className=" border border-primary-400 p-2  w-full rounded"
-        >
-          <option value="1">1 </option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
-      </LabelInput>
-      {/* a fancy start button */}
-      <button
-        className="self-center bg-primary-400 text-white font-semibold py-2 px-4 rounded hover:bg-hover-500 "
-        onClick={() => {
-          handleStartGame();
-        }}
+      <Formik
+        initialValues={initialValues}
+        validationSchema={newGameSchema}
+        onSubmit={handleStartGame}
       >
-        Start
-      </button>
+        {({ errors, touched }) => (
+          <Form className="flex justify-center flex-col ">
+            <LabelInput
+              hasError={errors.userName && touched.userName}
+              errorMessage={errors.userName}
+            >
+              <label
+                htmlFor="userName"
+                className=" block text-gray-700 font-semibold mb-2"
+              >
+                User Name
+              </label>
+              <Field
+                type="text"
+                as="input"
+                name="userName"
+                className="w-full rounded p-2 "
+                placeholder="Enter your name"
+              />
+            </LabelInput>
+            <LabelInput
+              hasError={errors.userCount && touched.userCount}
+              errorMessage={errors.userCount}
+            >
+              <label
+                htmlFor="userCount"
+                className=" block text-gray-700 font-semibold mb-2"
+              >
+                User Count
+              </label>
+              <Field
+                name="userCount"
+                id="userCount"
+                as="select"
+                className=" p-2 w-full rounded bg-white"
+              >
+                <option
+                  className="
+                    text-gray-400
+                "
+                  disabled
+                >
+                  Select user count
+                </option>
+
+                <option value="4">4</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+              </Field>
+            </LabelInput>
+            <LabelInput
+              hasError={errors.gameDuration && touched.gameDuration}
+              errorMessage={errors.gameDuration}
+            >
+              <label
+                htmlFor="gameDuration"
+                className=" block text-gray-700 font-semibold mb-2"
+              >
+                Game Duration
+              </label>
+              <Field
+                as="select"
+                name="gameDuration"
+                id="gameDuration"
+                className="p-2 w-full rounded  bg-white"
+              >
+                <option
+                  className="
+                    text-gray-400
+                "
+                  disabled
+                >
+                  Select game duration
+                </option>
+                <option value="1">1 </option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </Field>
+            </LabelInput>
+            <LabelInput
+              hasError={errors.teamAName && touched.teamAName}
+              errorMessage={errors.teamAName}
+            >
+              <label
+                htmlFor="teamAName"
+                className=" block text-gray-700 font-semibold mb-2"
+              >
+                Team A Name
+              </label>
+              <Field
+                type="text"
+                as="input"
+                name="teamAName"
+                className=" w-full rounded p-2"
+                placeholder="Enter team A name"
+              />
+            </LabelInput>
+            <LabelInput
+              hasError={errors.teamBName && touched.teamBName}
+              errorMessage={errors.teamBName}
+            >
+              <label
+                htmlFor="teamBName"
+                className=" block text-gray-700 font-semibold mb-2"
+              >
+                Team B Name
+              </label>
+              <Field
+                type="text"
+                as="input"
+                name="teamBName"
+                className="   w-full rounded p-2"
+                placeholder="Enter team B name"
+              />
+            </LabelInput>
+
+            <button
+              className="self-center bg-primary-400 text-white font-semibold py-2 px-4 rounded hover:bg-hover-500 "
+              type="submit"
+            >
+              Start
+            </button>
+          </Form>
+        )}
+      </Formik>
+      {/* a fancy start button */}
+
+      {/* formik version of this form */}
     </div>
   );
 }
