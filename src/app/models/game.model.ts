@@ -1,11 +1,10 @@
 import { Team } from './team.model';
 
-export type Game = {
+export interface GameState {
   id: number;
-  team1: Team;
-  team2: Team;
+  teams: Team[];
   time: Date;
-  activeTeam: Team;
+  activeTeamIndex: number;
   tabooRight: number;
   passRight: number;
-};
+}

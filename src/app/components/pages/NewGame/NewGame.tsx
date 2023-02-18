@@ -1,13 +1,16 @@
-import { Field, Form, Formik, FormikHelpers, FormikValues } from 'formik';
-import { useState } from 'react';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LabelInput } from '../../common/LabelInput';
 import * as Yup from 'yup';
+import { GameStateContext } from '../../../context/Providers/GameProvider';
+import { LabelInput } from '../../common/LabelInput';
 import { GameProps } from '../Game/Game';
 /* eslint-disable-next-line */
 export interface NewGameProps {}
 
 export function NewGame(props: NewGameProps) {
+  const { gameState, updateGameState } = useContext(GameStateContext);
+
   const initialValues = {
     userName: '',
     userCount: 4,
@@ -23,15 +26,35 @@ export function NewGame(props: NewGameProps) {
   ) {
     //use context api for set game state
     const { userName, userCount, gameDuration, teamAName, teamBName } = values;
-    const gameProps: GameProps = {
-      gameId: gameCode.toString(),
-      teamNames: [teamAName, teamBName],
-      duration: gameDuration,
-      userCount: userCount,
-    };
+    updateGameState({
+      id: gameCode,
+      activeTeamIndex: 0,
+      teams: [
+        {
+          name: teamAName,
+          score: 0,
+        },
+        {
+          name: teamBName,
+          score: 0,
+        },
+      ],
+      passRight: 3,
+      tabooRight: 3,
+      time: new Date(),
+    });
 
-    console.log(gameProps);
     // navigate to game page
+    navigate('/game', {
+      state: {
+        userName,
+        userCount,
+        gameDuration,
+        teamAName,
+        teamBName,
+        gameCode,
+      } as GameProps,
+    });
   }
   const newGameSchema = Yup.object().shape({
     userName: Yup.string()
