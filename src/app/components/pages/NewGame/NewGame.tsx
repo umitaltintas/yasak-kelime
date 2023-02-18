@@ -1,16 +1,17 @@
 import { Field, Form, Formik, FormikHelpers } from 'formik';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Team } from 'src/app/models/team.model';
+import { newGameSchema } from 'src/app/schema/new-game';
 import * as Yup from 'yup';
-import { GameStateContext } from '../../../context/Providers/GameProvider';
+import { useGameContext } from '../../../context/Providers/GameProvider';
 import { LabelInput } from '../../common/LabelInput';
 import { GameProps } from '../Game/Game';
 /* eslint-disable-next-line */
 export interface NewGameProps {}
 
 export function NewGame(props: NewGameProps) {
-  const { gameState, updateGameState } = useContext(GameStateContext);
-
+  const { gameState, updateGameState } = useGameContext();
   const initialValues = {
     userName: '',
     userCount: 4,
@@ -19,59 +20,27 @@ export function NewGame(props: NewGameProps) {
     teamBName: '',
   };
   const navigate = useNavigate();
-  const [gameCode, setGameCode] = useState(123);
+  const [gameCode] = useState(123);
   function handleStartGame(
     values: any,
     formikHelpers: FormikHelpers<typeof initialValues>
   ) {
-    //use context api for set game state
     const { userName, userCount, gameDuration, teamAName, teamBName } = values;
     updateGameState({
       id: gameCode,
       activeTeamIndex: 0,
-      teams: [
-        {
-          name: teamAName,
-          score: 0,
-        },
-        {
-          name: teamBName,
-          score: 0,
-        },
-      ],
+      teams: gameState.teams.map((team: Team, index: number) => ({
+        ...team,
+        name: index === 0 ? teamAName : teamBName,
+      })),
       passRight: 3,
       tabooRight: 3,
       time: new Date(),
     });
 
     // navigate to game page
-    navigate('/game', {
-      state: {
-        userName,
-        userCount,
-        gameDuration,
-        teamAName,
-        teamBName,
-        gameCode,
-      } as GameProps,
-    });
+    navigate('/game');
   }
-  const newGameSchema = Yup.object().shape({
-    userName: Yup.string()
-      .required('User name is required')
-      .min(3, 'User name is too short')
-      .max(20, 'User name is too long'),
-    userCount: Yup.number().required('User count is required'),
-    gameDuration: Yup.number().required('Game duration is required'),
-    teamAName: Yup.string()
-      .required('Team A name is required')
-      .min(3, 'Team A name is too short')
-      .max(20, 'Team A name is too long'),
-    teamBName: Yup.string()
-      .required('Team B name is required')
-      .min(3, 'Team B name is too short')
-      .max(20, 'Team B name is too long'),
-  });
 
   return (
     // a taboo game login screen will be here

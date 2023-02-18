@@ -1,5 +1,5 @@
 export interface scoreProps {
-  name: string;
+  name?: string;
   score: number;
   isActive: boolean;
 }

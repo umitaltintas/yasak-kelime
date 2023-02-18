@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import { GameStateContext } from '../../../context/Providers/GameProvider';
+import { useEffect, useState } from 'react';
+import { useGameContext } from '../../../context/Providers/GameProvider';
 import { Board } from '../../Board/Board';
 import { Score } from '../../Score/Score';
 import { Timer } from '../../Timer/Timer';
@@ -8,7 +8,7 @@ import { Timer } from '../../Timer/Timer';
 export interface GameProps {}
 
 export function Game(props: GameProps) {
-  const { gameState, updateGameState } = useContext(GameStateContext);
+  const { gameState, updateGameState } = useGameContext();
   const [activeTeamIndex, setActiveTeamIndex] = useState(
     gameState.activeTeamIndex
   );
@@ -22,13 +22,22 @@ export function Game(props: GameProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       if (time <= 0) {
-        setTime(5);
+        setTime(3);
         swapTeam();
       } else setTime((time) => time - 1);
     }, 1000);
     return () => clearInterval(interval);
   }, [time]);
 
+  function swapTeam() {
+    updateGameState({
+      ...gameState,
+      activeTeamIndex: activeTeamIndex === 0 ? 1 : 0,
+      tabooRight: 4,
+      passRight: 4,
+    });
+    console.log(gameState);
+  }
   return (
     // team name and score on top of the page>
     <div
@@ -53,15 +62,6 @@ export function Game(props: GameProps) {
       <Board></Board>
     </div>
   );
-
-  function swapTeam() {
-    updateGameState((gameState: any) => ({
-      ...gameState,
-      activeTeamIndex: (activeTeamIndex + 1) % 2,
-      tabooRight: 3,
-      passRight: 3,
-    }));
-  }
 }
 
 export default Game;

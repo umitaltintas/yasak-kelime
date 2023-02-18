@@ -1,0 +1,72 @@
+{
+  "words": [
+    {
+      "word": "SANTRFOR",
+      "forbidden_words": ["FUTBOL", "OYUNCU", "SAHA", "FORVET", "GOL"]
+    },
+    {
+      "word": "MOZAİK",
+      "forbidden_words": ["KÜÇÜK", "TAŞ", "PASTA", "DUVAR", "PARÇA"]
+    },
+    {
+      "word": "SERTİFİKA",
+      "forbidden_words": ["BELGE", "ALMAK", "VERMEK", "EĞİTİM", "KURS"]
+    },
+    {
+      "word": "İNSAN SARRAFI",
+      "forbidden_words": ["ANLAMAK", "TANIMAK", "İYİ", "KÖTÜ", "BİLMEK"]
+    },
+    {
+      "word": "ELİ YATKIN",
+      "forbidden_words": ["BECERİKLİ", "HAMARAT", "İŞ", "BİLMEK", "ÇALIŞMAK"]
+    },
+    {
+      "word": "PİRAMİT",
+      "forbidden_words": ["MISIR", "ÜÇGEN", "ŞEKİL", "FİRAVUN", "TAŞ"]
+    },
+    {
+      "word": "FRENK ÜZÜMÜ",
+      "forbidden_words": ["KIRMIZI", "ŞURUP", "BÖĞÜRTLEN", "AHUDUDU", "MEYVE"]
+    },
+    {
+      "word": "MUTLU SON",
+      "forbidden_words": ["HİKAYE", "MASAL", "FİLM", "AŞK", "BİTMEK"]
+    },
+    {
+      "word": "İŞ KURMAK",
+      "forbidden_words": ["DÜKKAN", "AÇMAK", "PATRON", "KENDİ", "ŞİRKET"]
+    },
+    {
+      "word": "ÖZGÜVEN",
+      "forbidden_words": ["SAYGI", "KENDİ", "İNANMAK", "BAŞARMAK", "EGO"]
+    },
+    {
+      "word": "TİFTİK",
+      "forbidden_words": ["KEÇİ", "YÜN", "KAZAK", "YUMUŞAK", "KIL"]
+    },
+    {
+      "word": "ULVİ",
+      "forbidden_words": ["AMAÇ", "YÜKSEK", "ULU", "YÜCE", "BENZERSİZ"]
+    },
+    {
+      "word": "LAÇKALAŞMAK",
+      "forbidden_words": ["GEVŞEMEK", "RAHAT", "SAMİMİ", "ORTAM", "ESKİMEK"]
+    },
+    {
+      "word": "LARVA",
+      "forbidden_words": ["KURTÇUK", "KURBAĞA", "SİNEK", "YUMURTA", "YAVRU"]
+    },
+    {
+      "word": "KÖPEKBALIĞI",
+      "forbidden_words": ["HAYVAN", "YÜZGEÇ", "JAWS", "BALİNA", "OKYANUS"]
+    },
+    {
+      "word": "LIV TYLER",
+      "forbidden_words": ["SİNEMA", "OYUNCU", "ARWEN", "ARAGORN", "ELF"]
+    },
+    {
+      "word": "FİLETO",
+      "forbidden_words": ["ET", "KESMEK", "İNCE", "DİLİM", "BALIK"]
+    }
+  ]
+}

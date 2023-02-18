@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { GameState } from 'src/app/models/game.model';
 import { Team } from 'src/app/models/team.model';
 const initialState = {
@@ -8,21 +8,23 @@ const initialState = {
   tabooRight: 3,
   teams: [
     {
-      name: 'Team A',
+      name: 'team a',
       score: 0,
     },
     {
-      name: 'Team B',
+      name: 'team b',
       score: 0,
     },
   ] as Team[],
-  time: new Date(),
-} as GameState;
+  time: 0,
+};
 
-// Create a new context object
-export const GameStateContext = createContext({} as any);
+interface IGameStateContext {
+  gameState: GameState;
+  updateGameState: (newState: any) => void;
+}
 
-export function GameProvider({ children }: any) {
+const useGameState = () => {
   const [gameState, setGameState] = useState(initialState);
   const updateGameState = (newState: GameState) => {
     setGameState((prevState) => ({
@@ -30,9 +32,22 @@ export function GameProvider({ children }: any) {
       ...newState,
     }));
   };
+  return { gameState, updateGameState } as IGameStateContext;
+};
 
+export const GameStateContext = createContext({} as IGameStateContext);
+
+export const useGameContext = () => {
+  const context = useContext(GameStateContext);
+  if (context === undefined) {
+    throw new Error('useGameContext must be used within a GameProvider');
+  }
+  return context;
+};
+
+export function GameProvider({ children }: any) {
   return (
-    <GameStateContext.Provider value={{ gameState, updateGameState }}>
+    <GameStateContext.Provider value={useGameState()}>
       {children}
     </GameStateContext.Provider>
   );
